@@ -3,278 +3,72 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Resume-Mentor | 你的 AI 履歷導師</title>
-  <meta name="description" content="Resume-Mentor 會根據目標職缺審查你的履歷，追問缺少的證據，並把真實經歷改寫成更有說服力的履歷亮點。" />
-  <link rel="stylesheet" href="assets/css/styles.css" />
-  <script src="assets/js/main.js" defer></script>
+  <title>Resume-Mentor｜陪你把自己的價值說清楚</title>
+  <meta name="description" content="不確定自己有多厲害？回答幾個簡單的問題，Resume-Mentor 會像 AI 顧問一樣訪談你，整理出一段專屬提示詞，貼給任何 AI 就能省下來回摸索的時間。" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=20260618-static-skills" />
 </head>
 <body>
-  <nav class="nav">
-    <div class="shell nav-inner">
-      <a class="brand" href="#top" aria-label="Resume-Mentor Home">
-        <span class="mark">RM</span>
-        <span>Resume-Mentor</span>
-      </a>
-      <div class="nav-links" aria-label="Primary navigation">
-        <a href="#workflow">流程</a>
-        <a href="#agents">Agent Team</a>
-        <a href="#demo">範例</a>
-        <a href="#faq">FAQ</a>
-        <a class="button" href="#start">免費檢查履歷</a>
-      </div>
-    </div>
-  </nav>
-
   <main id="top">
-    <header class="hero">
-      <div class="shell hero-grid">
-        <div>
-          <div class="eyebrow">你的 AI 履歷導師</div>
-          <h1>讓你的履歷不再只是工作清單</h1>
+    <!-- Hero -->
+    <header class="wz-hero">
+      <div class="shell hero-shell">
+        <div class="hero-copy">
+          <div class="eyebrow">Skill-driven multi-agent prompt builder</div>
+          <h1>把你的經歷，交給一組 AI 顧問團審一次。</h1>
           <p class="subtitle">
-            上傳履歷與目標職缺，Resume-Mentor 會像 Recruiter、Hiring Manager 和 ATS 一樣檢查你的履歷，
-            找出缺口、追問證據，並把真實經歷改寫成更有說服力的履歷亮點。
+            選情境、挑 agent，Resume-Mentor 會從你的 <strong>/skills</strong> 能力庫載入規則，
+            產生一段更懂履歷、面試與證據缺口的專屬 prompt。
           </p>
-          <div class="actions">
-            <a class="button" href="#start">免費檢查我的履歷</a>
-            <a class="button secondary" href="#demo">查看範例診斷報告</a>
-          </div>
-          <div class="trust">
-            <span>不編造成就</span>
-            <span>JD-specific review</span>
-            <span>ATS 解析檢查</span>
-            <span>面試素材輸出</span>
+          <div class="hero-actions">
+            <button class="button hero-primary js-start-interview" type="button">開始 AI 面談</button>
+            <span>約 3 分鐘，不上傳檔案也能開始</span>
           </div>
         </div>
-
-        <aside class="diagnosis" aria-label="Resume diagnosis preview">
-          <div class="diagnosis-head">
-            <div>
-              <div class="label">Resume Diagnosis</div>
-              <div class="score">68 / 100</div>
-            </div>
-            <div class="label">Sample Report</div>
-          </div>
-          <div class="diagnosis-body">
-            <div class="issue">
-              <span class="num">1</span>
-              <div>
-                <strong>成就缺少量化證據</strong>
-                <p>目前多數 bullet 只描述職責，沒有說明成果與影響。</p>
-              </div>
-            </div>
-            <div class="issue">
-              <span class="num">2</span>
-              <div>
-                <strong>技能沒有對齊目標職缺</strong>
-                <p>JD 要求的 stakeholder management、roadmap ownership 沒有被明確呈現。</p>
-              </div>
-            </div>
-            <div class="issue">
-              <span class="num">3</span>
-              <div>
-                <strong>面試官缺少可追問故事</strong>
-                <p>專案描述沒有衝突、取捨、決策與結果。</p>
-              </div>
-            </div>
-            <div class="rewrite">
-              <strong>Suggested Rewrite</strong>
-              <p><b>Before:</b> 負責產品需求整理與跨部門溝通。</p>
-              <p><b>After:</b> 主導 3 個跨部門產品專案，協調工程、設計與業務團隊，將需求交付週期縮短 28%。</p>
-            </div>
-          </div>
-        </aside>
+      </div>
+      <div class="hero-bottom">
+        <div class="shell hero-bottom-inner">
+          <span>Goal</span>
+          <strong>讓每一次 AI 對話，都帶著你的職涯顧問團與最新 skill 規則。</strong>
+        </div>
       </div>
     </header>
 
-    <section>
+    <!-- 怎麼進行（三步） -->
+    <section class="wz-how">
       <div class="shell">
         <div class="section-head">
-          <h2>你不是沒有經驗，是沒有把價值寫出來</h2>
-          <p>
-            大多數履歷失敗，不是因為經歷不夠，而是 Recruiter 看不到重點、ATS 抓不到關鍵字、
-            面試官找不到值得追問的故事。
-          </p>
+          <h2>放輕鬆，只有三步</h2>
+          <p>沒有標準答案，憑直覺選就好；中途想改、想回頭，隨時都可以。</p>
         </div>
         <div class="grid-3">
-          <article class="card">
-            <h3>投很多職缺卻沒有回覆</h3>
-            <p>履歷沒有針對目標職缺呈現必要技能與證據，系統和人都看不到匹配度。</p>
-          </article>
-          <article class="card">
-            <h3>履歷像職責清單</h3>
-            <p>「負責」「協助」「參與」無法證明 ownership、成果或商業影響。</p>
-          </article>
-          <article class="card">
-            <h3>不知道該放什麼</h3>
-            <p>Resume-Mentor 會挑戰哪些經歷值得放、哪些內容應該刪除或弱化。</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="workflow">
-      <div class="shell">
-        <div class="section-head">
-          <h2>從履歷到面試素材，只走 4 步</h2>
-          <p>先診斷，再追問，最後才改寫。避免產出漂亮但不可信的 AI 文案。</p>
-        </div>
-        <div class="grid-4">
           <article class="card step">
             <span class="num">1</span>
-            <h3>上傳履歷</h3>
-            <p>支援 PDF、DOCX 或純文字。先確認解析內容，避免格式錯誤污染分析。</p>
+            <h3>告訴我們你想準備什麼</h3>
+            <p>履歷、面試，還是個人網站？選一個現在最想搞定的就好。</p>
           </article>
           <article class="card step">
             <span class="num">2</span>
-            <h3>貼上目標職缺</h3>
-            <p>拆解必要技能、加分條件、職級期待與招聘者真正想確認的能力。</p>
+            <h3>像被顧問訪談一樣作答</h3>
+            <p>一次只問一題，每題都有小提示；按 Enter 或數字鍵就能快速作答。</p>
           </article>
           <article class="card step">
             <span class="num">3</span>
-            <h3>回答關鍵追問</h3>
-            <p>針對模糊經歷追問成果是多少、影響是什麼、如何證明。</p>
-          </article>
-          <article class="card step">
-            <span class="num">4</span>
-            <h3>取得改寫與素材</h3>
-            <p>輸出履歷診斷、JD match、ATS 風險、改寫 bullet 與面試 talking points。</p>
+            <h3>拿到你的專屬提示詞</h3>
+            <p>一鍵複製，貼給 AI 就能用。想要更精準，回上一步調整再產生一次。</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="agents">
-      <div class="shell">
-        <div class="section-head">
-          <h2>不是一個 AI 幫你改字，是一組角色幫你審履歷</h2>
-          <p>多 Agent 不放在使用者面前增加負擔，而是在背後用不同視角挑戰每一段經歷。</p>
-        </div>
-        <div class="grid-3">
-          <article class="card agent">
-            <h3>Recruiter</h3>
-            <p>檢查 10 秒內是否看得懂你的定位、職級與最強證據。</p>
-          </article>
-          <article class="card agent">
-            <h3>Hiring Manager</h3>
-            <p>判斷你的經歷是否符合職位能力要求，並指出面試會追問的風險。</p>
-          </article>
-          <article class="card agent">
-            <h3>ATS System</h3>
-            <p>檢查格式、欄位、關鍵技能與 JD 匹配，不宣稱保證通過。</p>
-          </article>
-          <article class="card agent">
-            <h3>Evidence Agent</h3>
-            <p>要求每個強 claim 都有事實、數據、範圍或具體貢獻支持。</p>
-          </article>
-          <article class="card agent">
-            <h3>Devil Advocate</h3>
-            <p>找出不可信、太空泛、缺少證據或可能面試翻車的內容。</p>
-          </article>
-          <article class="card agent">
-            <h3>Career Mentor</h3>
-            <p>把履歷素材轉化成可投遞、可面試、可延伸到 LinkedIn 的職涯故事。</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="demo">
-      <div class="shell">
-        <div class="section-head">
-          <h2>範例：從普通描述到可面試的成就</h2>
-          <p>Resume-Mentor 不會直接美化句子。它會先找缺少的證據，再改寫。</p>
-        </div>
-        <div class="demo">
-          <div class="pane before">
-            <div class="label">Before</div>
-            <h3>負責社群內容經營，提升品牌曝光。</h3>
-            <p>問題：這句話沒有規模、渠道、成果、時間範圍，也看不出個人貢獻。</p>
-          </div>
-          <div class="pane after">
-            <div class="label">After</div>
-            <h3>主導 LinkedIn 與 Instagram 內容策略，3 個月內將平均互動率從 1.8% 提升至 4.6%。</h3>
-            <p>如果使用者能提供註冊或 revenue 證據，系統會再把它連到商業成果。</p>
-          </div>
-        </div>
-        <div class="challenge-box">
-          <strong>AI Challenge</strong>
-          <ul>
-            <li>曝光提升多少？</li>
-            <li>負責哪些渠道？</li>
-            <li>內容產出頻率是多少？</li>
-            <li>是否帶來 leads、註冊或收入？</li>
-            <li>你個人的貢獻是什麼？</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="shell">
-        <div class="section-head">
-          <h2>為什麼不直接用 ChatGPT？</h2>
-          <p>ChatGPT 可以改文字，但 Resume-Mentor 的核心是證據、職缺對齊與風險審查。</p>
-        </div>
-        <div class="compare">
-          <article class="card">
-            <h3>ChatGPT</h3>
-            <ul>
-              <li>你要自己知道怎麼問</li>
-              <li>容易產生漂亮但空泛的改寫</li>
-              <li>不會穩定檢查履歷漏洞</li>
-              <li>可能編造或誇大不存在的成果</li>
-            </ul>
-          </article>
-          <article class="card">
-            <h3>Resume-Mentor</h3>
-            <ul>
-              <li>先追問，再改寫</li>
-              <li>每個建議都有原因與優先級</li>
-              <li>每個改寫都要求證據</li>
-              <li>每份履歷都對齊目標職缺</li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="faq">
-      <div class="shell">
-        <div class="section-head">
-          <h2>FAQ</h2>
-          <p>先把最容易誤解的地方說清楚，避免過度承諾。</p>
-        </div>
-        <div class="faq">
-          <details open>
-            <summary>Resume-Mentor 會保證我拿到面試嗎？</summary>
-            <p>不會。Resume-Mentor 不保證面試或錄取。它的目標是幫你更清楚呈現經歷、對齊職缺需求，並降低履歷中模糊、空泛或不可信的內容。</p>
-          </details>
-          <details>
-            <summary>它會幫我編造經歷嗎？</summary>
-            <p>不會。Resume-Mentor 只會根據你提供的真實經歷協助整理、追問與改寫。缺少證據的內容會被標記，而不是被編造。</p>
-          </details>
-          <details>
-            <summary>我的履歷資料會被保存嗎？</summary>
-            <p>MVP 應預設提供刪除資料功能，並清楚告知資料是否會傳送給第三方 AI 服務。正式上線前需要 Privacy Policy、Terms、AI Disclaimer 與 Data Retention Policy。</p>
-          </details>
-          <details>
-            <summary>適合誰使用？</summary>
-            <p>適合已經有履歷、正在投遞職缺，但不確定履歷是否有說服力、是否對齊 JD、是否能被 recruiter 快速理解的求職者。</p>
-          </details>
-        </div>
-      </div>
-    </section>
-
+    <!-- 結尾 CTA -->
     <section id="start" class="final-cta">
       <div class="shell">
         <div class="section-head section-head-centered">
-          <h2>把模糊經歷，變成有證據的履歷亮點</h2>
-          <p>第一版最該做的是 JD-specific Resume Critique + Evidence-based Rewrite。</p>
+          <h2>準備好了嗎？</h2>
+          <p>大約 3 分鐘，一次只問一題。慢慢來，這是為你一個人準備的。</p>
         </div>
         <div class="actions">
-          <a class="button" href="#top">免費檢查我的履歷</a>
-          <a class="button secondary" href="#demo">查看範例診斷報告</a>
+          <button class="button js-start-interview" type="button">🚀 開始 AI 面談</button>
         </div>
       </div>
     </section>
@@ -282,8 +76,39 @@
 
   <footer>
     <div class="shell">
-      Resume-Mentor. Evidence-backed career storytelling. No fake achievements, no generic rewrites.
+      Resume-Mentor — 履歷不是拿來寫的，是拿來挖掘的。我們只幫你說出真實的價值，不編造、不灌水。
     </div>
   </footer>
+
+  <!-- 全螢幕 AI 面談 overlay -->
+  <div id="wz-overlay" class="wz-overlay" role="dialog" aria-modal="true" aria-label="AI 面談" hidden>
+    <header class="wz-topbar">
+      <div class="wz-topbar-inner">
+        <div class="wz-progress"><div class="wz-progress-fill" id="wz-fill"></div></div>
+        <div class="wz-topbar-row">
+          <div class="wz-topbar-meta">
+            <span class="wz-step-count" id="wz-stepcount"></span>
+            <span class="wz-eta" id="wz-eta"></span>
+          </div>
+          <button class="wz-restart" id="wz-restart" type="button">↺ 重新開始</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="wz-stage" id="wz-stage">
+      <div class="wz-card" id="wz-card"></div>
+    </main>
+
+    <footer class="wz-footer" id="wz-footer">
+      <div class="wz-footer-inner">
+        <button class="button secondary wz-prev" id="wz-prev" type="button">← 上一步</button>
+        <button class="button wz-next" id="wz-next" type="button">下一步 →</button>
+      </div>
+    </footer>
+  </div>
+
+  <script src="assets/js/wizard-config.js?v=20260618-static-skills"></script>
+  <script src="assets/js/skill-loader.js?v=20260618-static-skills" defer></script>
+  <script src="assets/js/wizard.js?v=20260618-static-skills" defer></script>
 </body>
 </html>

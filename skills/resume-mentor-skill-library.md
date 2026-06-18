@@ -516,91 +516,468 @@ Success Criteria:
 ## Additional Skills 32-60
 
 ### 32. Career Positioning Skill
-Goal: Define the user's strongest market positioning for a target role.
+
+**Category:** Career
+
+**Goal:** Define the user's strongest market positioning for a target role.
+
+**Input:** Career Profile, target role, target industry, strongest achievements, constraints.
+
+**Output:** Career positioning statement, proof pillars, and role-fit narrative.
+
+**Challenge Rules:** Do not accept generic positioning such as "experienced professional" or "strong communicator." Require evidence of domain, scope, outcomes, and differentiation.
+
+**Review Rules:** Check whether the positioning is specific, credible, recruiter-readable, and supported by proof.
+
+**Success Criteria:** User can explain in 1-2 sentences why they fit the target role and why they are differentiated.
 
 ### 33. Resume Summary Skill
-Goal: Write a concise summary that explains target fit in 5 seconds.
+
+**Category:** Resume
+
+**Goal:** Write a concise summary that explains target fit in 5 seconds.
+
+**Input:** Target role, seniority, top achievements, domain strengths, strongest keywords.
+
+**Output:** 2-4 resume summary options.
+
+**Challenge Rules:** Do not use generic adjectives, inflated claims, or broad statements without evidence.
+
+**Review Rules:** Check whether the summary communicates role, seniority, domain, and proof quickly.
+
+**Success Criteria:** A recruiter can understand the candidate's fit without reading the full resume.
 
 ### 34. Bullet Compression Skill
-Goal: Shorten verbose bullets without losing evidence.
+
+**Category:** Resume
+
+**Goal:** Shorten verbose bullets without losing evidence.
+
+**Input:** Long resume bullets, target role, supporting metrics, constraints.
+
+**Output:** Shorter resume bullets with preserved proof.
+
+**Challenge Rules:** Do not remove ownership, scope, metric, or business impact for the sake of brevity.
+
+**Review Rules:** Check whether the compressed bullet remains specific, readable, and verifiable.
+
+**Success Criteria:** Bullet becomes easier to scan while keeping the strongest evidence.
 
 ### 35. Metrics Reconstruction Skill
-Goal: Help users reconstruct honest metrics from available facts.
+
+**Category:** Resume
+
+**Goal:** Help users reconstruct honest metrics from available facts.
+
+**Input:** Project context, baseline, result, time period, volume, qualitative impact, available records.
+
+**Output:** Honest metric candidates, assumptions, and follow-up questions.
+
+**Challenge Rules:** Do not invent metrics. Label estimates and assumptions clearly.
+
+**Review Rules:** Check whether the metric can be reasonably supported by facts the user can explain in an interview.
+
+**Success Criteria:** User can add measurable impact without fabricating numbers.
 
 ### 36. Evidence Request Skill
-Goal: Ask targeted questions when a claim lacks proof.
+
+**Category:** Evidence
+
+**Goal:** Ask targeted questions when a claim lacks proof.
+
+**Input:** Resume claim, achievement draft, JD requirement, missing context.
+
+**Output:** Targeted evidence questions.
+
+**Challenge Rules:** Do not rewrite unsupported claims. Ask for proof first.
+
+**Review Rules:** Questions should uncover contribution, scope, baseline, metric, stakeholder, constraint, and result.
+
+**Success Criteria:** Each weak claim is either supported by evidence, downgraded, or removed.
 
 ### 37. Resume Section Ordering Skill
-Goal: Decide which resume sections should appear first for a specific role.
+
+**Category:** Resume
+
+**Goal:** Decide which resume sections should appear first for a specific role.
+
+**Input:** Resume content, target role, seniority, strongest proof, career constraints.
+
+**Output:** Recommended resume section order with rationale.
+
+**Challenge Rules:** Do not let low-value sections push the strongest proof below the fold.
+
+**Review Rules:** Check scanability, recruiter expectations, seniority signal, and target-role fit.
+
+**Success Criteria:** The resume opens with the evidence most likely to earn continued reading.
 
 ### 38. Skills Section Optimization Skill
-Goal: Improve skill section relevance without keyword stuffing.
+
+**Category:** ATS
+
+**Goal:** Improve skill section relevance without keyword stuffing.
+
+**Input:** Current skills, target JD, actual experience, industry language.
+
+**Output:** Optimized skills section and integration notes.
+
+**Challenge Rules:** Remove unproven, outdated, or irrelevant skills. Never add skills the user does not truly have.
+
+**Review Rules:** Check search relevance, truthfulness, category grouping, and whether skills are supported elsewhere.
+
+**Success Criteria:** Skills section improves relevance while staying credible and interview-safe.
 
 ### 39. Education Section Optimization Skill
-Goal: Decide how to present education, coursework, GPA, and credentials.
+
+**Category:** Resume
+
+**Goal:** Decide how to present education, coursework, GPA, and credentials.
+
+**Input:** Education history, certifications, coursework, GPA, target role, seniority.
+
+**Output:** Education section recommendation.
+
+**Challenge Rules:** Do not overemphasize education when work evidence is stronger.
+
+**Review Rules:** Check relevance, recency, credibility, and whether credentials support target fit.
+
+**Success Criteria:** Education is presented clearly without distracting from stronger proof.
 
 ### 40. Project Section Optimization Skill
-Goal: Turn projects into credible proof of ability.
+
+**Category:** Resume
+
+**Goal:** Turn projects into credible proof of ability.
+
+**Input:** Project description, role, tools, decisions, users, results, links.
+
+**Output:** Project section bullets or case summary.
+
+**Challenge Rules:** Do not list projects without explaining problem, action, decision, and result.
+
+**Review Rules:** Check relevance, ownership, complexity, technical or business depth, and proof.
+
+**Success Criteria:** Projects demonstrate ability rather than just activity.
 
 ### 41. Career Transition Skill
-Goal: Reframe past experience for a new industry or role.
+
+**Category:** Career
+
+**Goal:** Reframe past experience for a new industry or role.
+
+**Input:** Current role, target role, transferable skills, evidence, gaps.
+
+**Output:** Transition narrative, resume angle, and bridge evidence plan.
+
+**Challenge Rules:** Do not hide gaps or pretend unrelated experience is directly equivalent.
+
+**Review Rules:** Check transferability, evidence quality, credibility, and missing proof.
+
+**Success Criteria:** User can explain why their past work reasonably supports the new direction.
 
 ### 42. Fresh Graduate Resume Skill
-Goal: Build resumes for candidates with limited work experience.
+
+**Category:** Resume
+
+**Goal:** Build resumes for candidates with limited work experience.
+
+**Input:** Education, internships, projects, coursework, volunteer work, target role.
+
+**Output:** Entry-level resume structure and bullets.
+
+**Challenge Rules:** Do not inflate student projects into professional experience.
+
+**Review Rules:** Check learning signal, project proof, initiative, and role relevance.
+
+**Success Criteria:** Resume shows potential and proof despite limited work history.
 
 ### 43. Senior Manager Resume Skill
-Goal: Present management scope, operating leverage, and cross-functional impact.
+
+**Category:** Executive
+
+**Goal:** Present management scope, operating leverage, and cross-functional impact.
+
+**Input:** Team size, budget, scope, business outcomes, leadership examples.
+
+**Output:** Senior manager resume positioning and bullets.
+
+**Challenge Rules:** Do not describe management as meetings and coordination only.
+
+**Review Rules:** Check operating leverage, decision quality, people leadership, and measurable outcomes.
+
+**Success Criteria:** Resume signals readiness for senior manager or director-level roles.
 
 ### 44. Remote Job Resume Skill
-Goal: Highlight remote collaboration, ownership, async communication, and autonomy.
+
+**Category:** Resume
+
+**Goal:** Highlight remote collaboration, ownership, async communication, and autonomy.
+
+**Input:** Remote work examples, collaboration tools, team distribution, outcomes.
+
+**Output:** Remote-ready resume bullets and positioning.
+
+**Challenge Rules:** Do not simply list tools like Slack or Zoom.
+
+**Review Rules:** Check autonomy, async clarity, documentation habits, cross-time-zone work, and delivery proof.
+
+**Success Criteria:** Candidate appears credible for remote or distributed teams.
 
 ### 45. Global Resume Localization Skill
-Goal: Adapt resume expectations across regions and markets.
+
+**Category:** Resume
+
+**Goal:** Adapt resume expectations across regions and markets.
+
+**Input:** Current resume, target country or market, target role, language preference.
+
+**Output:** Localization recommendations.
+
+**Challenge Rules:** Do not assume one resume style works globally.
+
+**Review Rules:** Check format expectations, language conventions, sensitive personal details, and market-specific emphasis.
+
+**Success Criteria:** Resume fits the expectations of the target market without misrepresenting the user.
 
 ### 46. English Resume Polish Skill
-Goal: Improve English clarity, tone, and recruiting language.
+
+**Category:** Resume
+
+**Goal:** Improve English clarity, tone, and recruiting language.
+
+**Input:** English resume text, target role, target market.
+
+**Output:** Polished English resume wording.
+
+**Challenge Rules:** Do not make wording sound inflated, unnatural, or overly corporate.
+
+**Review Rules:** Check clarity, grammar, action verbs, concision, and recruiter tone.
+
+**Success Criteria:** Resume reads naturally and professionally in English.
 
 ### 47. Chinese Resume Polish Skill
-Goal: Improve Chinese resume clarity, structure, and professional expression.
+
+**Category:** Resume
+
+**Goal:** Improve Chinese resume clarity, structure, and professional expression.
+
+**Input:** Chinese resume text, target role, target market.
+
+**Output:** Polished Chinese resume wording.
+
+**Challenge Rules:** Do not use vague formal language that hides impact.
+
+**Review Rules:** Check clarity, hierarchy, professional tone, and evidence visibility.
+
+**Success Criteria:** Resume reads clearly and persuasively in Chinese.
 
 ### 48. Cover Letter Skill
-Goal: Generate role-specific cover letters without repeating the resume.
+
+**Category:** Outreach
+
+**Goal:** Generate role-specific cover letters without repeating the resume.
+
+**Input:** Resume, JD, company context, motivation, strongest proof.
+
+**Output:** Cover letter draft.
+
+**Challenge Rules:** Do not use generic enthusiasm or repeat resume bullets mechanically.
+
+**Review Rules:** Check why this company, why this role, why this candidate, and what evidence supports the claim.
+
+**Success Criteria:** Cover letter adds context that the resume alone does not communicate.
 
 ### 49. Cold Outreach Message Skill
-Goal: Write concise outreach messages for recruiters or employees.
+
+**Category:** Outreach
+
+**Goal:** Write concise outreach messages for recruiters or employees.
+
+**Input:** Target person, target company, user background, ask, proof point.
+
+**Output:** Cold outreach message options.
+
+**Challenge Rules:** Do not write long messages or vague networking requests.
+
+**Review Rules:** Check specificity, politeness, low-friction ask, and relevance.
+
+**Success Criteria:** Recipient can understand and respond quickly.
 
 ### 50. Referral Request Skill
-Goal: Write referral requests that are specific, polite, and easy to act on.
+
+**Category:** Outreach
+
+**Goal:** Write referral requests that are specific, polite, and easy to act on.
+
+**Input:** Target role, referrer relationship, resume summary, reason for fit.
+
+**Output:** Referral request message.
+
+**Challenge Rules:** Do not pressure the referrer or assume they owe help.
+
+**Review Rules:** Check clarity, context, proof, and ease of forwarding.
+
+**Success Criteria:** Referrer can decide and act without extra work.
 
 ### 51. Headhunter Pitch Skill
-Goal: Create a short pitch for executive search or recruiter outreach.
+
+**Category:** Outreach
+
+**Goal:** Create a short pitch for executive search or recruiter outreach.
+
+**Input:** Career Profile, target role, seniority, compensation context, strongest impact.
+
+**Output:** Recruiter or headhunter pitch.
+
+**Challenge Rules:** Avoid long biography, vague seniority claims, and unsupported compensation logic.
+
+**Review Rules:** Check market positioning, business impact, clarity, and differentiation.
+
+**Success Criteria:** Recruiter quickly understands why the candidate is worth a conversation.
 
 ### 52. Portfolio Review Skill
-Goal: Review portfolio structure, proof, case depth, and hiring relevance.
+
+**Category:** Portfolio
+
+**Goal:** Review portfolio structure, proof, case depth, and hiring relevance.
+
+**Input:** Portfolio outline, case studies, project links, target role.
+
+**Output:** Portfolio review and improvement list.
+
+**Challenge Rules:** Do not accept visuals or screenshots without decision and impact evidence.
+
+**Review Rules:** Check problem framing, process, tradeoffs, collaboration, results, and role relevance.
+
+**Success Criteria:** Hiring manager wants to continue reviewing the portfolio.
 
 ### 53. GitHub Profile Review Skill
-Goal: Review GitHub profile, pinned repos, README, and technical credibility.
+
+**Category:** Engineering
+
+**Goal:** Review GitHub profile, pinned repos, README, and technical credibility.
+
+**Input:** GitHub profile, repositories, README files, target engineering role.
+
+**Output:** GitHub improvement plan.
+
+**Challenge Rules:** Do not treat activity volume as proof of skill.
+
+**Review Rules:** Check pinned repo relevance, README clarity, architecture, tests, commit quality, and project completeness.
+
+**Success Criteria:** GitHub profile supports the user's technical credibility.
 
 ### 54. Case Interview Prep Skill
-Goal: Prepare structured answers for case-style interviews.
+
+**Category:** Interview
+
+**Goal:** Prepare structured answers for case-style interviews.
+
+**Input:** Case prompt, target role, business context, constraints.
+
+**Output:** Framework, sample answer, scoring rubric, and follow-up questions.
+
+**Challenge Rules:** Require assumptions, tradeoffs, success metrics, and decision logic.
+
+**Review Rules:** Check structure, business logic, prioritization, and clarity.
+
+**Success Criteria:** User can reason through ambiguous case questions with structure.
 
 ### 55. Behavioral Interview Drill Skill
-Goal: Drill behavioral questions with follow-up pressure.
+
+**Category:** Interview
+
+**Goal:** Drill behavioral questions with follow-up pressure.
+
+**Input:** Story bank, target role, weak areas, interview type.
+
+**Output:** Behavioral questions, follow-up prompts, scoring rubric.
+
+**Challenge Rules:** Push beyond polished first answers and test ownership, conflict, tradeoffs, and outcomes.
+
+**Review Rules:** Check specificity, credibility, structure, and resilience under follow-up.
+
+**Success Criteria:** User can answer behavioral questions with concrete evidence.
 
 ### 56. Mock Interview Reviewer Skill
-Goal: Review interview responses for clarity, credibility, and risk.
+
+**Category:** Interview
+
+**Goal:** Review interview responses for clarity, credibility, and risk.
+
+**Input:** User answer, interview question, target role, scoring criteria.
+
+**Output:** Score, critique, risks, improved answer, and likely follow-ups.
+
+**Challenge Rules:** Do not overpraise vague answers.
+
+**Review Rules:** Check situation, action, ownership, result, evidence, and delivery.
+
+**Success Criteria:** User receives clear, actionable interview improvement.
 
 ### 57. Job Search Strategy Skill
-Goal: Plan target roles, outreach, applications, and feedback loops.
+
+**Category:** Career
+
+**Goal:** Plan target roles, outreach, applications, and feedback loops.
+
+**Input:** Career goal, target roles, geography, available time, network, constraints.
+
+**Output:** Job search strategy and weekly operating plan.
+
+**Challenge Rules:** Avoid generic advice like "apply more" without targeting and feedback loops.
+
+**Review Rules:** Check target precision, channel strategy, outreach quality, cadence, and learning from rejection.
+
+**Success Criteria:** User has a repeatable search workflow with measurable progress.
 
 ### 58. Offer Comparison Skill
-Goal: Compare offers across compensation, scope, growth, risk, and fit.
+
+**Category:** Career
+
+**Goal:** Compare offers across compensation, scope, growth, risk, and fit.
+
+**Input:** Offers, compensation details, role scope, company context, career goals.
+
+**Output:** Offer decision matrix.
+
+**Challenge Rules:** Do not compare only salary; include downside risk and long-term fit.
+
+**Review Rules:** Check compensation, manager quality, scope, growth, stability, culture, and optionality.
+
+**Success Criteria:** User can make a rational offer decision.
 
 ### 59. Personal Brand Skill
-Goal: Build consistent positioning across resume, LinkedIn, portfolio, and outreach.
+
+**Category:** Career
+
+**Goal:** Build consistent positioning across resume, LinkedIn, portfolio, and outreach.
+
+**Input:** Career Profile, target audience, strongest evidence, channels.
+
+**Output:** Personal brand narrative and channel-specific messaging.
+
+**Challenge Rules:** Avoid buzzwords, inflated identity claims, and inconsistent positioning.
+
+**Review Rules:** Check proof, memorability, consistency, and audience relevance.
+
+**Success Criteria:** User presents one clear professional story across channels.
 
 ### 60. No-Fabrication Guardrail Skill
-Goal: Prevent invented achievements, metrics, credentials, roles, or outcomes.
+
+**Category:** Guardrail
+
+**Goal:** Prevent invented achievements, metrics, credentials, roles, or outcomes.
+
+**Input:** Any resume, interview, LinkedIn, portfolio, or career asset request.
+
+**Output:** Truthfulness constraints, missing-evidence labels, and follow-up questions.
+
+**Challenge Rules:** Never fill gaps with invented facts. Mark unsupported content as needing user input.
+
+**Review Rules:** Check every strong claim for evidence, source, scope, and plausibility.
+
+**Success Criteria:** Output remains truthful, verifiable, and safe to use.
 
 ## Top 30 Skills To Develop First
 

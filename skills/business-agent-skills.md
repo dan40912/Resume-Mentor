@@ -114,6 +114,8 @@ Strategic Focus:
 ```
 Any score below 3 is a business risk.
 
+**Success Criteria:** The business case clearly states who pays, why they pay now, whether the economics work, what assumptions are risky, and what evidence must be validated next.
+
 ## Designer Skill
 
 **Role:** Resume-Mentor UIUX Designer Agent.
