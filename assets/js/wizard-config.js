@@ -8,8 +8,8 @@ window.RM_CONFIG = {
   /* ---------- UI 文案（繁中） ---------- */
   ui: {
     brand: "Resume-Mentor",
-    title: "產生你的專屬 AI 提示詞",
-    subtitle: "回答幾個問題，產出一段可直接複製的提示詞。貼給任何 AI，省下 token 與來回溝通。",
+    title: "Career Agent Hub",
+    subtitle: "選目標、挑 agent、看真實 skill prompt，產出一段可直接複製的工作流提示詞。",
     next: "下一步",
     prev: "上一步",
     restart: "重新開始",
@@ -17,7 +17,7 @@ window.RM_CONFIG = {
     copy: "📋 一鍵複製 Prompt",
     copied: "✅ 複製好了！",
     resultTitle: "✅ 已完成分析",
-    resultHint: "你的 Prompt 已準備完成。複製後貼到 Claude、ChatGPT 或任何你習慣的 AI 就能開始；想更精準，回上一步調整再產生一次。",
+    resultHint: "你的 Prompt 已準備完成。先看拆解好的區塊，再複製貼給 Claude、ChatGPT 或任何你習慣的 AI；想更精準，回上一步調整再產生一次。",
     reinterview: "🔄 重新訪談",
     viewSample: "📄 查看成果範例",
     backEdit: "← 回上一步調整",
@@ -27,7 +27,7 @@ window.RM_CONFIG = {
     restartCancel: "取消",
     restartConfirm: "重新開始",
     // 進度 / 剩餘時間
-    startHint: "第 1 步 · 先選方向",
+    startHint: "第 1 步 · 先選路線",
     etaMin: "約剩 {m} 分鐘",
     etaUnder1: "不到 1 分鐘",
     etaLeft: "剩下 {n} 題",
@@ -45,8 +45,10 @@ window.RM_CONFIG = {
 
   /* ---------- 每一步的小提示（友善 hint） ---------- */
   hints: {
-    goal: "不用想太多，選你現在最想搞定的那一件就好。之後隨時可以回來換，不會弄丟你填過的東西。",
-    agents: "上面是審查角色、下面是各領域專家。不知道選誰？按一下「✨ 加入推薦角色」就好，我們會依你的產業與職能幫你配一組。",
+    goal: "不用想太多，先選你今天最想搞定的那條路線。之後隨時可以回來換，不會弄丟你填過的東西。",
+    sourcePack: "把你手上真的有的材料勾出來就好，後面 prompt 會自動對齊，不需要一次整理完。",
+    goalOutcome: "先選你這次最想拿到的結果，這會影響 prompt 的輸出格式與 agent 分工。",
+    agents: "上面是審查角色、下面是各領域專家。不知道選誰？按一下「✨ 加入推薦角色」就好，我們會依你的路線與目標幫你配一組。",
     wireframe: "把每一種點開看看，挑一個最接近你心裡那個樣子的就好，沒有標準答案。",
     // CV
     status: "誠實選就好，這只是幫我們抓對方向，不是在評分你。",
@@ -65,17 +67,59 @@ window.RM_CONFIG = {
     industry: "選最貼近你現在、或你想去的那個產業。",
     jobFamily: "填你想投的方向就好，不一定要是你現在的職稱。",
     seniority: "以你「想應徵」的職級為準，不是現在的職位。",
+    tone: "想被溫和鼓勵，還是被狠狠點醒？沒有對錯，看你今天想怎麼被對待。",
+    // LinkedIn
+    profileState: "LinkedIn 不只是履歷搬過去。先選你目前的狀態，後面我們會決定要先修 headline、about，還是 experience。",
+    linkedinFocus: "先選你想讓誰看到你，再決定要強化哪一塊內容。",
+    linkedinAudience: "不同受眾會影響 headline、about 和 featured section 的寫法。",
+    // 推薦信
+    relationship: "推薦文最怕空泛，先選你和推薦人的關係，後面才能判斷語氣和可信度。",
+    recommendationUseCase: "先選這份推薦要拿去做什麼，格式和說法會不一樣。",
+    recommendationEvidence: "挑幾個推薦人真的看過、真的能說的證據點，可信度會高很多。",
+    // 適性測驗
+    assessmentType: "這不是心理測驗，而是把能力、證據和角色適配拆開來看。",
+    assessmentFocus: "先選最想補的缺口，我們會把問題和練習設計得更準。",
   },
 
   /* ---------- Step 0：你想預備什麼 ---------- */
   goals: [
     { id: "cv", label: "履歷 / CV", desc: "診斷、挖掘成就、改寫成有證據的履歷亮點。" },
+    { id: "linkedin", label: "LinkedIn 頁面", desc: "優化 headline、About、Experience 與搜尋可見度。" },
+    { id: "recommendation", label: "推薦文 / 推薦信", desc: "幫人寫、或請人幫你寫，產出有具體事例的可信推薦。" },
+    { id: "assessment", label: "適性測驗", desc: "盤點能力、證據與角色適配，找出最適合的職涯方向。" },
     { id: "interview", label: "面試", desc: "模擬考官、出題評分、把經歷練成可面試的故事。" },
     { id: "website", label: "個人網站 / 作品集", desc: "選一種排版風格，產出個人網站的結構與文案。" },
+    { id: "jobs", label: "職缺選擇", desc: "To be continued", disabled: true, comingSoon: true },
   ],
 
   /* ---------- 共用問題 ---------- */
   shared: {
+    sourcePack: {
+      id: "sourcePack",
+      title: "你現在手上有哪些材料？",
+      type: "multi",
+      options: [
+        { id: "resume", label: "履歷 / CV", promptZh: "履歷 / CV", promptEn: "Resume / CV" },
+        { id: "linkedin", label: "LinkedIn 內容", promptZh: "LinkedIn 內容", promptEn: "LinkedIn content" },
+        { id: "jd", label: "職缺說明（JD）", promptZh: "職缺說明 (JD)", promptEn: "Job description (JD)" },
+        { id: "notes", label: "工作筆記 / 成就素材", promptZh: "工作筆記／成就素材", promptEn: "Work notes / achievement materials" },
+        { id: "refs", label: "推薦人 / 介紹人素材", promptZh: "推薦人／介紹人素材", promptEn: "Referrer / recommender notes" },
+        { id: "review", label: "績效回饋 / 主管評語", promptZh: "績效回饋／主管評語", promptEn: "Performance feedback / manager notes" },
+      ],
+    },
+    goalOutcome: {
+      id: "goalOutcome",
+      title: "這次最重要的輸出是什麼？（可多選）",
+      type: "multi",
+      options: [
+        { id: "diagnosis", label: "先診斷，不急著改寫", promptZh: "先診斷，不急著改寫", promptEn: "Diagnose first, no rewrite yet" },
+        { id: "rewrite", label: "直接產出可用稿", promptZh: "直接產出可用稿", promptEn: "Generate usable draft" },
+        { id: "search", label: "提高可搜尋與可被找到", promptZh: "提高可搜尋與可被找到", promptEn: "Improve discoverability" },
+        { id: "proof", label: "補強證據與可信度", promptZh: "補強證據與可信度", promptEn: "Strengthen evidence and credibility" },
+        { id: "practice", label: "整理成練習或演練題", promptZh: "整理成練習或演練題", promptEn: "Turn into practice / drill questions" },
+        { id: "roadmap", label: "做成下一步行動計畫", promptZh: "做成下一步行動計畫", promptEn: "Turn into an action roadmap" },
+      ],
+    },
     industries: {
       id: "industry",
       title: "你的產業背景是？",
@@ -127,6 +171,16 @@ window.RM_CONFIG = {
         { id: "senior", label: "資深 (7–12 年)", promptZh: "資深 (7–12 年)", promptEn: "Senior (7–12 yrs)" },
         { id: "manager", label: "主管 / 經理", promptZh: "主管／經理", promptEn: "Manager" },
         { id: "director", label: "總監以上", promptZh: "總監以上 (Director/VP/C-level)", promptEn: "Director+ (Director/VP/C-level)" },
+      ],
+    },
+    tone: {
+      id: "tone",
+      title: "希望 AI 用什麼強度挑戰你？",
+      type: "single",
+      options: [
+        { id: "gentle", label: "溫和引導（鼓勵為主）", promptZh: "語氣溫和、以鼓勵與引導為主", promptEn: "Gentle, encouraging and guiding tone" },
+        { id: "standard", label: "標準顧問（中立專業）", promptZh: "中立專業的顧問語氣", promptEn: "Neutral, professional consultant tone" },
+        { id: "harsh", label: "毒舌面試官（嚴格找弱點）", promptZh: "嚴格直接，主動找出弱點與風險（毒舌面試官）", promptEn: "Strict and blunt, actively hunting weaknesses (devil's advocate)", forceAgent: "devil" },
       ],
     },
   },
@@ -182,16 +236,6 @@ window.RM_CONFIG = {
           { id: "yes", label: "有，我會貼完整 JD（最精準）", promptZh: "會提供完整目標 JD", promptEn: "Will provide the full target job description" },
           { id: "rough", label: "有大概方向但沒有具體 JD", promptZh: "只有大致方向、無具體 JD", promptEn: "Has a rough direction but no specific JD" },
           { id: "no", label: "還不確定要投哪個職位", promptZh: "尚未確定目標職位", promptEn: "Target role not yet decided" },
-        ],
-      },
-      {
-        id: "tone",
-        title: "希望 AI 用什麼強度挑戰你？",
-        type: "single",
-        options: [
-          { id: "gentle", label: "溫和引導（鼓勵為主）", promptZh: "語氣溫和、以鼓勵與引導為主", promptEn: "Gentle, encouraging and guiding tone" },
-          { id: "standard", label: "標準顧問（中立專業）", promptZh: "中立專業的顧問語氣", promptEn: "Neutral, professional consultant tone" },
-          { id: "harsh", label: "毒舌面試官（嚴格找弱點）", promptZh: "嚴格直接，主動找出弱點與風險（毒舌面試官）", promptEn: "Strict and blunt, actively hunting weaknesses (devil's advocate)", forceAgent: "devil" },
         ],
       },
       {
@@ -349,6 +393,163 @@ window.RM_CONFIG = {
     ],
   },
 
+  /* ---------- LinkedIn 路徑問題 ---------- */
+  linkedin: {
+    questions: [
+      {
+        id: "profileState",
+        title: "你目前的 LinkedIn 狀態？",
+        type: "single",
+        options: [
+          { id: "empty", label: "幾乎空白 / 還沒整理", promptZh: "幾乎空白／還沒整理", promptEn: "Mostly empty / not yet organized" },
+          { id: "resumeCopy", label: "直接把履歷貼上去", promptZh: "直接把履歷照貼上去", promptEn: "Copied resume with little adaptation" },
+          { id: "outdated", label: "有內容，但很久沒更新", promptZh: "有內容，但很久沒更新", promptEn: "Has content but outdated" },
+          { id: "strong", label: "基本完整，想再提升", promptZh: "基本完整，想再提升", promptEn: "Mostly complete, wants a stronger version" },
+        ],
+      },
+      {
+        id: "focus",
+        title: "你最想先強化哪一塊？（可多選）",
+        type: "multi",
+        options: [
+          { id: "headline", label: "Headline / 標題", promptZh: "Headline / 標題", promptEn: "Headline / title" },
+          { id: "about", label: "About / 自我簡介", promptZh: "About / 自我簡介", promptEn: "About / summary" },
+          { id: "experience", label: "Experience / 經歷", promptZh: "Experience / 經歷", promptEn: "Experience section" },
+          { id: "skills", label: "Skills / 技能", promptZh: "Skills / 技能", promptEn: "Skills section" },
+          { id: "featured", label: "Featured / 精選", promptZh: "Featured / 精選", promptEn: "Featured section" },
+          { id: "search", label: "被搜尋到", promptZh: "被搜尋到", promptEn: "Search visibility" },
+        ],
+      },
+      {
+        id: "audience",
+        title: "你想先吸引哪種人？",
+        type: "single",
+        options: [
+          { id: "recruiter", label: "招募者 / Recruiter", promptZh: "招募者 / Recruiter", promptEn: "Recruiters" },
+          { id: "hm", label: "用人主管", promptZh: "用人主管", promptEn: "Hiring managers" },
+          { id: "founder", label: "創辦人 / 新創", promptZh: "創辦人／新創", promptEn: "Founders / startups" },
+          { id: "client", label: "客戶 / 商務合作方", promptZh: "客戶／商務合作方", promptEn: "Clients / business partners" },
+          { id: "peer", label: "同業 / 社群", promptZh: "同業／社群", promptEn: "Peers / community" },
+        ],
+      },
+      {
+        id: "wants",
+        title: "你希望 AI 幫你做什麼？（可多選）",
+        type: "multi",
+        options: [
+          { id: "audit", label: "先做現況診斷", promptZh: "先做現況診斷", promptEn: "Audit current profile first" },
+          { id: "rewrite", label: "改寫 Headline / About / Experience", promptZh: "改寫 Headline / About / Experience", promptEn: "Rewrite headline / about / experience" },
+          { id: "search", label: "補強搜尋關鍵字", promptZh: "補強搜尋關鍵字", promptEn: "Improve search keywords" },
+          { id: "cta", label: "加強行動呼籲 / 聯絡方式", promptZh: "加強行動呼籲／聯絡方式", promptEn: "Improve CTA / contact path" },
+          { id: "fullpack", label: "產出完整優化包", promptZh: "產出完整優化包", promptEn: "Generate a full optimization pack" },
+        ],
+      },
+    ],
+  },
+
+  /* ---------- Recommendation 路徑問題 ---------- */
+  recommendation: {
+    questions: [
+      {
+        id: "relationship",
+        title: "你和推薦人的關係是？",
+        type: "single",
+        options: [
+          { id: "manager", label: "直屬主管 / 前主管", promptZh: "直屬主管／前主管", promptEn: "Direct manager / former manager" },
+          { id: "peer", label: "同事 / 跨部門合作夥伴", promptZh: "同事／跨部門合作夥伴", promptEn: "Peer / cross-functional partner" },
+          { id: "client", label: "客戶 / 外部合作方", promptZh: "客戶／外部合作方", promptEn: "Client / external partner" },
+          { id: "mentor", label: "導師 / 教授 / 顧問", promptZh: "導師／教授／顧問", promptEn: "Mentor / professor / advisor" },
+        ],
+      },
+      {
+        id: "useCase",
+        title: "這份內容要拿來做什麼？",
+        type: "single",
+        options: [
+          { id: "letter", label: "推薦信 / 推薦文", promptZh: "推薦信／推薦文", promptEn: "Recommendation letter / reference note" },
+          { id: "referral", label: "內推 / 介紹信", promptZh: "內推／介紹信", promptEn: "Referral / introduction note" },
+          { id: "reference", label: "Reference call 腳本", promptZh: "Reference call 腳本", promptEn: "Reference call script" },
+          { id: "email", label: "Email / LinkedIn 訊息", promptZh: "Email / LinkedIn 訊息", promptEn: "Email / LinkedIn message" },
+        ],
+      },
+      {
+        id: "evidence",
+        title: "推薦內容最該提哪些證據？（可多選）",
+        type: "multi",
+        options: [
+          { id: "impact", label: "具體成果 / 成效", promptZh: "具體成果／成效", promptEn: "Concrete impact / outcomes" },
+          { id: "ownership", label: "Ownership / 主導程度", promptZh: "Ownership / 主導程度", promptEn: "Ownership / scope" },
+          { id: "collab", label: "合作 / 溝通表現", promptZh: "合作／溝通表現", promptEn: "Collaboration / communication" },
+          { id: "growth", label: "成長 / 學習速度", promptZh: "成長／學習速度", promptEn: "Growth / learning speed" },
+          { id: "values", label: "態度 / 價值觀", promptZh: "態度／價值觀", promptEn: "Attitude / values" },
+        ],
+      },
+      {
+        id: "wants",
+        title: "你希望 AI 幫你做什麼？（可多選）",
+        type: "multi",
+        options: [
+          { id: "draft", label: "直接寫出草稿", promptZh: "直接寫出草稿", promptEn: "Draft the full text" },
+          { id: "outline", label: "先給大綱與說法", promptZh: "先給大綱與說法", promptEn: "Give outline and talking points" },
+          { id: "tone", label: "調整語氣與可信度", promptZh: "調整語氣與可信度", promptEn: "Tune tone and credibility" },
+          { id: "risk", label: "找出不能講的地方", promptZh: "找出不能講的地方", promptEn: "Flag risky / unsupported claims" },
+        ],
+      },
+    ],
+  },
+
+  /* ---------- Assessment 路徑問題 ---------- */
+  assessment: {
+    questions: [
+      {
+        id: "assessmentType",
+        title: "你想做哪一種適性 / 能力檢視？",
+        type: "single",
+        options: [
+          { id: "rolefit", label: "角色適配檢視", promptZh: "角色適配檢視", promptEn: "Role fit assessment" },
+          { id: "skillgap", label: "能力缺口檢視", promptZh: "能力缺口檢視", promptEn: "Skill gap assessment" },
+          { id: "aptitude", label: "適性測驗 / 答題練習", promptZh: "適性測驗／答題練習", promptEn: "Aptitude test / answer practice" },
+          { id: "roadmap", label: "下一步成長路線", promptZh: "下一步成長路線", promptEn: "Growth roadmap" },
+        ],
+      },
+      {
+        id: "focus",
+        title: "你最想檢查哪些面向？（可多選）",
+        type: "multi",
+        options: [
+          { id: "logic", label: "邏輯與結構化表達", promptZh: "邏輯與結構化表達", promptEn: "Logic and structured expression" },
+          { id: "evidence", label: "證據與可信度", promptZh: "證據與可信度", promptEn: "Evidence and credibility" },
+          { id: "communication", label: "溝通與說服", promptZh: "溝通與說服", promptEn: "Communication and persuasion" },
+          { id: "ownership", label: "Ownership / 主導感", promptZh: "Ownership / 主導感", promptEn: "Ownership / initiative" },
+          { id: "fit", label: "角色匹配度", promptZh: "角色匹配度", promptEn: "Role fit" },
+          { id: "bias", label: "題目偏誤 / 公平性", promptZh: "題目偏誤／公平性", promptEn: "Question bias / fairness" },
+        ],
+      },
+      {
+        id: "format",
+        title: "你希望輸出成什麼？",
+        type: "single",
+        options: [
+          { id: "scorecard", label: "評分卡 / 打分", promptZh: "評分卡／打分", promptEn: "Scorecard" },
+          { id: "drill", label: "練習題 / Drill", promptZh: "練習題／Drill", promptEn: "Practice drills" },
+          { id: "plan", label: "行動計畫", promptZh: "行動計畫", promptEn: "Action plan" },
+          { id: "full", label: "完整分析包", promptZh: "完整分析包", promptEn: "Full analysis pack" },
+        ],
+      },
+      {
+        id: "wants",
+        title: "你希望 AI 幫你做什麼？（可多選）",
+        type: "multi",
+        options: [
+          { id: "audit", label: "先做診斷", promptZh: "先做診斷", promptEn: "Diagnose first" },
+          { id: "quiz", label: "出題測驗", promptZh: "出題測驗", promptEn: "Generate quiz questions" },
+          { id: "feedback", label: "逐題回饋", promptZh: "逐題回饋", promptEn: "Provide per-answer feedback" },
+          { id: "roadmap", label: "做成補強路線", promptZh: "做成補強路線", promptEn: "Turn into improvement roadmap" },
+        ],
+      },
+    ],
+  },
+
   /* ---------- Agent 定義（依分支） ---------- */
   agents: {
     cv: [
@@ -380,6 +581,44 @@ window.RM_CONFIG = {
         ruleZh: "追問為何值得這個薪酬、有何差異化；以高階溝通標準檢視。", ruleEn: "Ask why the candidate is worth the compensation and what makes them differentiated; judge by executive communication standards." },
       { id: "coach", name: "Interview Coach", focusZh: "把成就轉成面試故事", focusEn: "turning achievements into interview stories",
         ruleZh: "把候選人的真實成就整理成結構清楚、可在 2 分鐘內講完、抗追問的面試答案。", ruleEn: "Turn the candidate's real achievements into structured answers deliverable in under 2 minutes and resilient to follow-ups." },
+      { id: "devil", name: "Devil Advocate", focusZh: "挑錯、找漏洞、避免灌水", focusEn: "spot weak claims, find leaks, avoid hype",
+        ruleZh: "直接挑出最容易在追問時垮掉的說法，逼使用者用真實案例補強。", ruleEn: "Call out the claims most likely to collapse under follow-up and force the user to back them with real examples." },
+    ],
+    linkedin: [
+      { id: "li-strategist", name: "LinkedIn Strategist", focusZh: "headline、about、experience 的主軸與定位", focusEn: "headline, about, and experience positioning",
+        ruleZh: "先釐清這個 LinkedIn 檔案要把誰吸引過來，再決定 headline、about、experience 的敘事順序與主張。", ruleEn: "Clarify who the profile should attract first, then decide the narrative order and claims for headline, about, and experience." },
+      { id: "li-search", name: "Recruiter Search Lens", focusZh: "搜尋可見度、關鍵字、可被找到", focusEn: "search visibility, keywords, findability",
+        ruleZh: "檢查是否會被搜尋到：title、headline、skills、about 和經歷的關鍵字是否自然且可被搜尋。", ruleEn: "Check whether the profile can be found: title, headline, skills, about, and experience keywords must be natural and searchable." },
+      { id: "li-story", name: "Experience Story Editor", focusZh: "經歷敘事、證據順序、可讀性", focusEn: "experience narrative, evidence order, readability",
+        ruleZh: "把經歷改成適合 LinkedIn 的敘事方式：更像故事與影響，不是履歷逐條重複。", ruleEn: "Rewrite experience into LinkedIn-style narrative: more story and impact, not a line-by-line resume copy." },
+      { id: "li-tone", name: "Tone Editor", focusZh: "語氣、個人品牌、可信度", focusEn: "tone, personal brand, credibility",
+        ruleZh: "讓文字聽起來有個性但不浮誇，維持專業、可搜尋、可信的個人品牌語氣。", ruleEn: "Keep the writing distinctive but not inflated, with a professional, searchable, and credible personal brand voice." },
+      { id: "devil", name: "Devil Advocate", focusZh: "挑錯、找漏洞、避免灌水", focusEn: "spot weak claims, find leaks, avoid hype",
+        ruleZh: "把過度包裝、空泛定位與搜尋可見度上的漏洞直接指出來，不留模糊空間。", ruleEn: "Call out over-packaging, vague positioning, and discoverability leaks without leaving ambiguity." },
+    ],
+    recommendation: [
+      { id: "referee", name: "Referee Voice", focusZh: "推薦人視角、口氣、權威感", focusEn: "recommender voice, tone, authority",
+        ruleZh: "確保內容是推薦人真能說出口的話，並且語氣與關係強度一致。", ruleEn: "Ensure the content sounds like something the recommender could genuinely say, with tone aligned to the relationship strength." },
+      { id: "credibility", name: "Credibility Checker", focusZh: "可證實性、具體事實、避免灌水", focusEn: "verifiability, concrete facts, anti-hype",
+        ruleZh: "檢查每個稱讚是否有具體事例或見證來源，避免把沒看過的事寫成肯定句。", ruleEn: "Check every praise statement for a concrete example or firsthand basis; do not turn hearsay into a certainty." },
+      { id: "tone", name: "Tone Normalizer", focusZh: "正式度、親切度、信件節奏", focusEn: "formality, warmth, letter rhythm",
+        ruleZh: "把內容調整成適合收件情境的語氣，必要時提供正式版與較口語版。", ruleEn: "Tune the content to the recipient context, and provide both a formal and a more conversational version when useful." },
+      { id: "guardrail", name: "No-Fabrication Guardrail", focusZh: "不編造、不誇張", focusEn: "no fabrication, no exaggeration",
+        ruleZh: "任何沒證據的說法都要降級成待補資訊，不可因為信件需要就補編內容。", ruleEn: "Downgrade unsupported claims to missing-input status; never invent details just to make the letter stronger." },
+      { id: "devil", name: "Devil Advocate", focusZh: "挑錯、找漏洞、避免灌水", focusEn: "spot weak claims, find leaks, avoid hype",
+        ruleZh: "把不可信、過度誇張或角色不符的內容直接刪除或降級，不要因為要寫成一封信就放水。", ruleEn: "Remove or downgrade anything untrustworthy, exaggerated, or mismatched to the relationship; do not soften because it is a letter." },
+    ],
+    assessment: [
+      { id: "assessment-designer", name: "Assessment Designer", focusZh: "題目結構、評分維度、流程設計", focusEn: "question structure, scoring dimensions, workflow design",
+        ruleZh: "把評估設計成和目標角色真的相關，而不是抽象人格測驗。", ruleEn: "Design the assessment around the actual target role, not around abstract personality tests." },
+      { id: "bias-checker", name: "Bias Checker", focusZh: "公平性、題目偏誤、可接受性", focusEn: "fairness, bias, acceptability",
+        ruleZh: "檢查題目是否引入與工作無關的偏誤或不公平假設，必要時重寫。", ruleEn: "Check whether questions introduce job-irrelevant bias or unfair assumptions and rewrite them when needed." },
+      { id: "rolefit", name: "Role-fit Analyst", focusZh: "能力缺口、角色匹配、信心", focusEn: "capability gaps, role fit, confidence",
+        ruleZh: "把測驗結果連回目標角色，拆出強項、弱項與下一步優先補強方向。", ruleEn: "Tie the assessment back to the target role and break out strengths, gaps, and priority next steps." },
+      { id: "framer", name: "Answer Framer", focusZh: "把答案整理成可練習的輸出", focusEn: "turn answers into practice-ready output",
+        ruleZh: "把測驗題與回饋整理成可以反覆練習的問題、範例與行動建議。", ruleEn: "Turn the test into repeatable practice questions, examples, and action suggestions." },
+      { id: "devil", name: "Devil Advocate", focusZh: "挑錯、找漏洞、避免誤導", focusEn: "spot weaknesses, find loopholes, avoid misleading output",
+        ruleZh: "把無關、過於主觀或可能誤導的測驗設計直接指出，避免把測驗做成不實用的心理占卜。", ruleEn: "Call out irrelevant, overly subjective, or misleading assessment design so the test does not turn into pseudo-psychology." },
     ],
     // 領域專家顧問（CV 與面試共用，使用者自由加選）。match 用於「推薦」標記，比對所選產業／職能。
     specialists: [
@@ -474,6 +713,62 @@ Question / Interviewer / Category / What this tests
       zh: `請依選定的排版風格與我的背景，輸出個人網站／作品集的：1) 頁面結構（區塊順序）2) 每個區塊的標題與文案草稿 3) 導覽列與 CTA 建議 4) 視覺風格建議（色彩、字體、間距）。文案需真實、可量化，不得編造成就。`,
       en: `Based on the chosen layout style and my background, output for a personal website/portfolio: 1) page structure (section order) 2) headline and copy draft for each section 3) nav and CTA suggestions 4) visual style suggestions (color, type, spacing). Keep copy truthful and quantifiable; do not fabricate achievements.`,
     },
+    linkedin: {
+      zh: `請依以下格式輸出 LinkedIn 優化包：
+1. Profile Verdict：目前狀態 / 最大問題 / 優先順序
+2. Headline Options：至少 3 版
+3. About Draft：1 版主稿 + 1 版更精簡版
+4. Experience Rewrite：針對最重要的 2-3 段經歷改寫
+5. Skills / Featured 建議
+6. 搜尋可見度優化建議
+7. 不能寫或不該誇大的內容
+8. 下一步行動清單`,
+      en: `Output a LinkedIn optimization pack in this format:
+1. Profile Verdict: current state / biggest issue / priority order
+2. Headline Options: at least 3 versions
+3. About Draft: 1 main draft + 1 shorter version
+4. Experience Rewrite: rewrite the 2-3 most important experiences
+5. Skills / Featured suggestions
+6. Search visibility improvements
+7. Content that should not be written or exaggerated
+8. Next-step action list`,
+    },
+    recommendation: {
+      zh: `請依以下格式輸出推薦文 / 推薦信草稿：
+1. 使用情境與推薦人的角色
+2. 核心結論：這個人為什麼值得被推薦
+3. 3-5 個具體證據點
+4. 正式版草稿
+5. 較口語的 Email / 訊息版
+6. 需要向使用者補問的問題
+7. 不能寫或不能誇大的地方`,
+      en: `Output a recommendation / referral draft in this format:
+1. Use case and recommender role
+2. Core conclusion: why this person deserves the recommendation
+3. 3-5 concrete evidence points
+4. Formal draft
+5. More casual email / message version
+6. Questions to ask the user before finalizing
+7. What should not be written or exaggerated`,
+    },
+    assessment: {
+      zh: `請依以下格式輸出適性測驗 / 能力檢視包：
+1. Role-fit Verdict：適配結論與信心程度
+2. Strengths / Gaps：最強項與最需要補的缺口
+3. Assessment Design：題目設計與評分標準
+4. Sample Questions：3-7 題
+5. Bias / Fairness Check
+6. Improvement Plan：補強路線與練習建議
+7. 需要使用者補充的資訊`,
+      en: `Output an aptitude / capability assessment pack in this format:
+1. Role-fit Verdict: fit conclusion and confidence level
+2. Strengths / Gaps: strongest areas and biggest gaps
+3. Assessment Design: question design and scoring criteria
+4. Sample Questions: 3-7 questions
+5. Bias / Fairness Check
+6. Improvement Plan: strengthening path and practice suggestions
+7. Information still needed from the user`,
+    },
   },
 
   /* ---------- /skills 來源與選用規則 ---------- */
@@ -540,6 +835,76 @@ Question / Interviewer / Category / What this tests
         binance: ["Career Gap Analysis Skill", "No-Fabrication Guardrail Skill"],
         startup: ["Startup Founder Resume Skill", "Career Transition Skill"],
         exec: ["Headhunter Pitch Skill", "Executive Resume Skill", "Board Bio Skill"],
+      },
+    },
+    linkedin: {
+      core: [
+        "LinkedIn Headline Skill",
+        "LinkedIn About Skill",
+        "LinkedIn Experience Skill",
+        "LinkedIn Skills Skill",
+        "LinkedIn Featured Skill",
+        "LinkedIn Recruiter Search Skill",
+        "Personal Brand Skill",
+        "No-Fabrication Guardrail Skill",
+      ],
+      byFocus: {
+        headline: ["LinkedIn Headline Skill"],
+        about: ["LinkedIn About Skill"],
+        experience: ["LinkedIn Experience Skill"],
+        skills: ["LinkedIn Skills Skill"],
+        featured: ["LinkedIn Featured Skill", "Portfolio Review Skill"],
+        search: ["LinkedIn Recruiter Search Skill", "Keyword Gap Skill"],
+      },
+      byAudience: {
+        recruiter: ["LinkedIn Recruiter Search Skill"],
+        hm: ["Career Positioning Skill"],
+        founder: ["Personal Brand Skill"],
+        client: ["LinkedIn Featured Skill"],
+        peer: ["LinkedIn Content Positioning Skill"],
+      },
+    },
+    recommendation: {
+      core: [
+        "Referral Request Skill",
+        "Recommendation Letter Skill",
+        "Cold Outreach Message Skill",
+        "Career Positioning Skill",
+        "No-Fabrication Guardrail Skill",
+      ],
+      byUseCase: {
+        letter: ["Recommendation Letter Skill"],
+        referral: ["Referral Request Skill", "Headhunter Pitch Skill"],
+        reference: ["Referral Request Skill", "Mock Interview Reviewer Skill"],
+        email: ["Cold Outreach Message Skill", "Referral Request Skill"],
+      },
+      byRelationship: {
+        manager: ["Career Positioning Skill"],
+        peer: ["Personal Brand Skill"],
+        client: ["Headhunter Pitch Skill"],
+        mentor: ["Career Positioning Skill"],
+      },
+    },
+    assessment: {
+      core: [
+        "Assessment Design Skill",
+        "Bias Check Skill",
+        "Role Targeting Skill",
+        "Career Gap Analysis Skill",
+        "STAR Answer Skill",
+        "No-Fabrication Guardrail Skill",
+      ],
+      byType: {
+        rolefit: ["Role Targeting Skill", "Career Gap Analysis Skill"],
+        skillgap: ["Career Gap Analysis Skill"],
+        aptitude: ["Assessment Design Skill", "STAR Answer Skill"],
+        roadmap: ["Job Search Strategy Skill", "Career Gap Analysis Skill"],
+      },
+      byFormat: {
+        scorecard: ["Assessment Design Skill"],
+        drill: ["STAR Answer Skill", "Behavioral Interview Drill Skill"],
+        plan: ["Career Gap Analysis Skill", "Job Search Strategy Skill"],
+        full: ["Assessment Design Skill", "Bias Check Skill", "Career Gap Analysis Skill"],
       },
     },
     website: {
@@ -939,6 +1304,66 @@ Question / Interviewer / Category / What this tests
 **Challenge Rules:** Do not write a generic autobiography.
 **Review Rules:** Check positioning, evidence, voice, and CTA.
 **Success Criteria:** Recruiter wants to continue reading the profile.`,
+    "LinkedIn Experience Skill": `**Goal:** Rewrite LinkedIn experience sections.
+**Input:** Work history and achievement database.
+**Output:** LinkedIn Experience section.
+**Challenge Rules:** Do not simply copy the resume.
+**Review Rules:** Check readability, searchability, and story flow.
+**Success Criteria:** Experience reads naturally and supports target positioning.`,
+    "LinkedIn Skills Skill": `**Goal:** Optimize the LinkedIn skills section.
+**Input:** Current skills, target role, target industry.
+**Output:** LinkedIn skills list and ordering guidance.
+**Challenge Rules:** Do not add unproven skills.
+**Review Rules:** Check keyword fit, truthfulness, and support from evidence.
+**Success Criteria:** Skills match target search terms without keyword stuffing.`,
+    "LinkedIn Featured Skill": `**Goal:** Choose the most credible Featured items for LinkedIn.
+**Input:** Projects, posts, articles, portfolio links, target role.
+**Output:** Featured section recommendations.
+**Challenge Rules:** Do not feature weak or irrelevant material.
+**Review Rules:** Check relevance, proof, and narrative fit.
+**Success Criteria:** Featured section reinforces the target positioning.`,
+    "LinkedIn Recruiter Search Skill": `**Goal:** Improve LinkedIn discoverability for recruiters.
+**Input:** Profile text, headline, skills, target roles, industry language.
+**Output:** Search optimization recommendations.
+**Challenge Rules:** Do not keyword-stuff or misrepresent experience.
+**Review Rules:** Check natural keyword placement and profile completeness.
+**Success Criteria:** Recruiters can find the profile more easily.`,
+    "LinkedIn Content Positioning Skill": `**Goal:** Define credible content themes for LinkedIn.
+**Input:** Career goals, expertise, proof points, audience.
+**Output:** 3-5 content pillars and posting angles.
+**Challenge Rules:** Avoid generic thought leadership.
+**Review Rules:** Check audience fit, proof, and repeatability.
+**Success Criteria:** User has clear, credible topics to post about.`,
+    "Referral Request Skill": `**Goal:** Write referral requests that are specific, polite, and easy to act on.
+**Input:** Target role, referrer relationship, resume summary, reason for fit.
+**Output:** Referral request message.
+**Challenge Rules:** Do not pressure the referrer or assume they owe help.
+**Review Rules:** Check clarity, context, proof, and ease of forwarding.
+**Success Criteria:** Referrer can decide and act without extra work.`,
+    "Recommendation Letter Skill": `**Goal:** Draft a recommendation letter or reference note grounded in real observation.
+**Input:** Recommender relationship, observed strengths, target purpose, concrete examples.
+**Output:** Recommendation letter draft.
+**Challenge Rules:** Do not invent personal observations or exaggerate familiarity.
+**Review Rules:** Check credibility, specificity, tone, and recipient fit.
+**Success Criteria:** The letter sounds authentic and useful.`,
+    "Assessment Design Skill": `**Goal:** Design a role-relevant assessment or aptitude check.
+**Input:** Target role, desired competencies, evidence, constraints.
+**Output:** Assessment structure, questions, and scoring rubric.
+**Challenge Rules:** Do not create vague personality tests.
+**Review Rules:** Check role relevance, clarity, and measurability.
+**Success Criteria:** Assessment can distinguish real capability fairly.`,
+    "Bias Check Skill": `**Goal:** Detect unfair or irrelevant bias in an assessment.
+**Input:** Assessment draft, target role, context.
+**Output:** Bias and fairness review.
+**Challenge Rules:** Flag proxies that do not relate to job performance.
+**Review Rules:** Check fairness, relevance, and clarity.
+**Success Criteria:** Assessment becomes more equitable and job-related.`,
+    "Role Targeting Skill": `**Goal:** Pick realistic target roles and narrow the search.
+**Input:** Current experience, market context, career goals.
+**Output:** Role shortlist and priority order.
+**Challenge Rules:** Challenge unrealistic or too-broad targets.
+**Review Rules:** Check fit, stretch, and marketability.
+**Success Criteria:** User has a focused target-role plan.`,
     "CEO Skill": `**Goal:** Evaluate business value, strategic risk, and whether the work is worth building.
 **Input:** Target customer, paying customer, pricing, acquisition, competitors, moat hypothesis.
 **Output:** Revenue model, growth plan, strategic risk, and moat assessment.
@@ -1009,6 +1434,72 @@ Score: 3 / 5
 Weakness: Situation is clear, but your personal action and the numbers are missing.
 Stronger version: "I found problem X (S/T), I led Y (A), lifting conversion from 1.8% to 4.6% in 3 months (R)."
 Likely follow-up: How do you know your change drove the growth?`,
+    },
+    linkedin: {
+      zh: `【LinkedIn 優化包（節錄範例）】
+
+1. Profile Verdict
+目前問題：Headline 太像履歷職稱，沒有搜尋關鍵字與差異化。
+優先順序：先修 Headline，再補 About，最後重寫 Experience。
+
+2. Headline Options
+- Product Manager | Growth | B2B SaaS | 產品策略與成長實驗
+- PM focused on user insight, metrics, and launches`,
+      en: `[LinkedIn optimization pack — sample excerpt]
+
+1. Profile Verdict
+Current issue: the headline reads like a plain job title and lacks keywords / differentiation.
+Priority: fix the headline first, then About, then Experience.
+
+2. Headline Options
+- Product Manager | Growth | B2B SaaS | Product strategy and experiments
+- PM focused on user insight, metrics, and launches`,
+    },
+    recommendation: {
+      zh: `【推薦文 / 推薦信（節錄範例）】
+
+1. 核心結論
+我在過去兩年和你密切合作，最能代表你的特質是可靠、主動與高標準交付。
+
+2. 具體證據
+- 主導跨部門專案，提前兩週完成
+- 在壓力情境下仍能保持溝通品質
+
+3. 草稿方向
+我很樂意推薦 XXX，因為他/她不只完成任務，也能主動提出更好的做法。`,
+      en: `[Recommendation draft — sample excerpt]
+
+1. Core conclusion
+I worked closely with you for two years, and the traits that best define you are reliability, initiative, and high standards.
+
+2. Evidence
+- Led a cross-functional project two weeks ahead of schedule
+- Maintained communication quality under pressure
+
+3. Draft direction
+I am glad to recommend XXX because they do not just finish tasks; they proactively improve the way the work is done.`,
+    },
+    assessment: {
+      zh: `【適性測驗（節錄範例）】
+
+1. Role-fit Verdict
+目前較適合：PM / BizOps / Growth
+原因：你對結構化問題與跨部門協調有明顯優勢。
+
+2. Improvement Plan
+- 補強量化證據
+- 練習 2 分鐘 STAR 答題
+- 針對目標角色補一個實戰案例`,
+      en: `[Assessment pack — sample excerpt]
+
+1. Role-fit Verdict
+Most suitable for: PM / BizOps / Growth
+Reason: strong structured thinking and cross-functional coordination.
+
+2. Improvement Plan
+- Strengthen quantified evidence
+- Practice 2-minute STAR answers
+- Add one role-specific case study`,
     },
     website: {
       zh: `【個人網站規劃（節錄範例）】

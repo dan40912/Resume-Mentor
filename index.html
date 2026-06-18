@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Resume-Mentor｜陪你把自己的價值說清楚</title>
-  <meta name="description" content="不確定自己有多厲害？回答幾個簡單的問題，Resume-Mentor 會像 AI 顧問一樣訪談你，整理出一段專屬提示詞，貼給任何 AI 就能省下來回摸索的時間。" />
+  <title>Resume-Mentor｜Career Agent Hub</title>
+  <meta name="description" content="Resume-Mentor 是一個多 Agent 職涯工作流工具：可選履歷、LinkedIn、推薦文、適性測驗、面試與作品集路線，並查看真實 skill prompt 與設定。" />
   <link rel="stylesheet" href="assets/css/styles.css?v=20260618-static-skills" />
 </head>
 <body>
@@ -14,47 +14,144 @@
       <div class="shell hero-shell">
         <div class="hero-copy">
           <div class="eyebrow">Skill-driven multi-agent prompt builder</div>
-          <h1>把你的經歷，交給一組 AI 顧問團審一次。</h1>
+          <h1>把你的經歷，交給一組 AI 顧問團一起看。</h1>
           <p class="subtitle">
-            選情境、挑 agent，Resume-Mentor 會從你的 <strong>/skills</strong> 能力庫載入規則，
-            產生一段更懂履歷、面試與證據缺口的專屬 prompt。
+            先選路線，再挑 agent。Resume-Mentor 會從你的 <strong>/skills</strong> 能力庫載入規則，
+            產生一段更懂履歷、LinkedIn、推薦信、適性測驗與證據缺口的專屬 prompt。
           </p>
           <div class="hero-actions">
-            <button class="button hero-primary js-start-interview" type="button">開始 AI 面談</button>
-            <span>約 3 分鐘，不上傳檔案也能開始</span>
+            <button class="button hero-primary js-start-interview" type="button">開始選路線</button>
+            <span>約 3-5 分鐘，不上傳檔案也能開始</span>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <img
+            class="hero-image"
+            src="assets/images/career-agent-hub-hero.png"
+            alt="Career Agent Hub multi-agent dashboard preview"
+            width="1536"
+            height="864"
+          />
+          <div class="hero-visual-top">
+            <span class="hero-chip">Agent gallery</span>
+            <span class="hero-chip">Real skill prompt</span>
+          </div>
+          <div class="hero-visual-panel">
+            <div class="hero-visual-grid">
+              <article class="hero-mini-card">
+                <h3>CV Council</h3>
+                <p>Recruiter / HM / ATS / Coach</p>
+              </article>
+              <article class="hero-mini-card">
+                <h3>LinkedIn Board</h3>
+                <p>Headline / About / Search Lens</p>
+              </article>
+              <article class="hero-mini-card">
+                <h3>Referral Pack</h3>
+                <p>Referee Voice / Credibility</p>
+              </article>
+              <article class="hero-mini-card">
+                <h3>Assessment Lab</h3>
+                <p>Bias check / Role-fit / Drill</p>
+              </article>
+            </div>
+            <div class="hero-visual-preview">
+              <div class="hero-visual-label">Prompt anatomy</div>
+              <div class="hero-visual-stack">
+                <span>Goal</span>
+                <span>Context</span>
+                <span>Agent Council</span>
+                <span>Skill Pack</span>
+                <span>Output / Guardrails</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div class="hero-bottom">
         <div class="shell hero-bottom-inner">
           <span>Goal</span>
-          <strong>讓每一次 AI 對話，都帶著你的職涯顧問團與最新 skill 規則。</strong>
+          <strong>讓每一次 AI 對話，都帶著你的職涯顧問團、真實 skill 與可檢視的設定。</strong>
         </div>
       </div>
     </header>
 
-    <!-- 怎麼進行（三步） -->
-    <section class="wz-how">
+    <!-- Agent 市集 -->
+    <section class="wz-market">
       <div class="shell">
         <div class="section-head">
-          <h2>放輕鬆，只有三步</h2>
-          <p>沒有標準答案，憑直覺選就好；中途想改、想回頭，隨時都可以。</p>
+          <h2>先看路線，再選 agent</h2>
+          <p>原本三個入口已經可以用，現在再加上 LinkedIn、推薦文與適性測驗；職缺選擇先做成灰色 teaser。</p>
+        </div>
+        <div class="wz-goal-grid" id="rm-goals-gallery"></div>
+      </div>
+    </section>
+
+    <!-- Skill 透明層 -->
+    <section class="wz-skills">
+      <div class="shell">
+        <div class="section-head">
+          <h2>每個 agent 背後都有真實 skill</h2>
+          <p>點一下就能看實際 prompt、challenge rules、review rules 與 success criteria，不是只有漂亮的名稱。</p>
+        </div>
+        <div class="wz-skill-grid" id="rm-skill-gallery"></div>
+      </div>
+    </section>
+
+    <!-- Prompt anatomy -->
+    <section class="wz-structure">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Prompt 不是一大坨字，而是幾個可理解的區塊</h2>
+          <p>我們把目標、背景、agent council、skill pack、輸出格式與 guardrail 分開，讓使用者知道自己在調什麼。</p>
         </div>
         <div class="grid-3">
           <article class="card step">
             <span class="num">1</span>
-            <h3>告訴我們你想準備什麼</h3>
-            <p>履歷、面試，還是個人網站？選一個現在最想搞定的就好。</p>
+            <h3>Goal</h3>
+            <p>先確定這次是 CV、LinkedIn、推薦文、適性測驗、面試，還是作品集。</p>
           </article>
           <article class="card step">
             <span class="num">2</span>
-            <h3>像被顧問訪談一樣作答</h3>
-            <p>一次只問一題，每題都有小提示；按 Enter 或數字鍵就能快速作答。</p>
+            <h3>Context</h3>
+            <p>產業、職能、年資、材料、語氣，一次收齊，減少後面追問。</p>
           </article>
           <article class="card step">
             <span class="num">3</span>
-            <h3>拿到你的專屬提示詞</h3>
-            <p>一鍵複製，貼給 AI 就能用。想要更精準，回上一步調整再產生一次。</p>
+            <h3>Agent + Skill</h3>
+            <p>每個角色對應到真實 skill，且所有規則都能直接打開看。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="wz-how">
+      <div class="shell">
+        <div class="section-head">
+          <h2>多步驟選擇，但不會卡住</h2>
+          <p>每一步都只問一件事，讓系統看起來更完整，但操作還是輕量。</p>
+        </div>
+        <div class="grid-4">
+          <article class="card step">
+            <span class="num">1</span>
+            <h3>選路線</h3>
+            <p>先決定今天要處理 CV、LinkedIn、推薦文、適性測驗、面試或作品集。</p>
+          </article>
+          <article class="card step">
+            <span class="num">2</span>
+            <h3>補材料</h3>
+            <p>把手上的素材勾出來，像履歷、JD、推薦人資訊、工作筆記。</p>
+          </article>
+          <article class="card step">
+            <span class="num">3</span>
+            <h3>配 agent</h3>
+            <p>每條路線都會帶出不同的審查角色與專家顧問。</p>
+          </article>
+          <article class="card step">
+            <span class="num">4</span>
+            <h3>看 prompt</h3>
+            <p>先看分層預覽，再複製完整 prompt 送給 AI。</p>
           </article>
         </div>
       </div>
@@ -65,10 +162,10 @@
       <div class="shell">
         <div class="section-head section-head-centered">
           <h2>準備好了嗎？</h2>
-          <p>大約 3 分鐘，一次只問一題。慢慢來，這是為你一個人準備的。</p>
+          <p>大約 3-5 分鐘，一次只問一題。慢慢來，這是為你一個人準備的。</p>
         </div>
         <div class="actions">
-          <button class="button js-start-interview" type="button">🚀 開始 AI 面談</button>
+          <button class="button js-start-interview" type="button">🚀 開始選路線</button>
         </div>
       </div>
     </section>
@@ -76,7 +173,7 @@
 
   <footer>
     <div class="shell">
-      Resume-Mentor — 履歷不是拿來寫的，是拿來挖掘的。我們只幫你說出真實的價值，不編造、不灌水。
+      Resume-Mentor — 履歷、LinkedIn、推薦文與面試都不是拿來亂寫的，我們只幫你把真實價值說清楚，不編造、不灌水。
     </div>
   </footer>
 
