@@ -19,7 +19,9 @@
   /* ---------- 步驟組裝（依分支） ---------- */
   function buildSteps() {
     const steps = [{ kind: "goal" }];
-    if (state.goal) {
+    if (state.goal === "encourage") {
+      (C.encourage.questions || []).forEach((q) => steps.push({ kind: "question", q }));
+    } else if (state.goal) {
       steps.push({ kind: "question", q: C.shared.sourcePack });
       steps.push({ kind: "question", q: C.shared.goalOutcome });
       steps.push({ kind: "question", q: C.shared.industries });
@@ -300,7 +302,7 @@
     const skill = SKILLS.getSkill(name);
     const title = skill ? skill.title : name;
     const body = el("div", "wz-skill-preview");
-    const meta = el("p", "wz-modal-body", skill && skill.fileId ? `來源：${skill.fileId === "fallback" ? "fallback" : skill.fileId}` : "來源：skill registry");
+    const meta = el("p", "wz-modal-body", skill && skill.fileId ? `來源：${skill.fileId === "fallback" ? "內建規則" : skill.fileId}` : "來源：內建規則庫");
     body.appendChild(meta);
     const pre = el("pre", "wz-sample wz-skill-preview-pre");
     pre.textContent = skill && skill.text ? skill.text : `### ${name}\n\nNo skill text found.`;
@@ -360,13 +362,8 @@
       txt.appendChild(el("h3", "wz-goal-title", g.label));
       txt.appendChild(el("p", "wz-goal-desc", g.desc));
       top.appendChild(txt);
-      const badge = el("span", "wz-goal-badge", disabled ? "To be continued" : (g.id === "cv" ? "核心入口" : "新入口"));
-      top.appendChild(badge);
+      if (disabled) top.appendChild(el("span", "wz-goal-badge", "即將推出"));
       opt.appendChild(top);
-      const meta = el("div", "wz-goal-meta");
-      meta.appendChild(el("span", null, disabled ? "灰色 teaser" : "可立即使用"));
-      meta.appendChild(el("span", null, g.id === "linkedin" ? "包含真實 skill" : "多 Agent 分工"));
-      opt.appendChild(meta);
       opt.onclick = () => {
         if (disabled) return;
         if (state.goal !== g.id) { state.goal = g.id; state.answers = {}; state.agents = []; }
@@ -437,14 +434,52 @@
     return a.match.includes(state.answers.jobFamily) || a.match.includes(state.answers.industry);
   }
 
+  // 每個 agent 對應到顧問團那套真人剪影圖（沒有完全對應的取最接近的概念）
+  const AGENT_IMG = {
+    recruiter: "02-recruiter-agent", hm: "03-hiring-manager-agent", ats: "04-ats-system-agent",
+    ceo: "14-ceo-agent", devil: "06-devils-advocate-agent", coach: "10-interview-coach-agent",
+    headhunter: "13-executive-recruiter-agent",
+    google: "03-hiring-manager-agent", amazon: "08-jd-match-agent", binance: "25-compliance-agent",
+    startup: "28-startup-founder-agent", exec: "13-executive-recruiter-agent",
+    "li-strategist": "19-linkedin-optimizer-agent", "li-search": "02-recruiter-agent",
+    "li-story": "11-star-story-agent", "li-tone": "20-personal-branding-agent",
+    referee: "10-interview-coach-agent", credibility: "05-evidence-agent",
+    tone: "20-personal-branding-agent", guardrail: "30-no-fabrication-guardrail-agent",
+    "assessment-designer": "01-career-architect-agent", "bias-checker": "25-compliance-agent",
+    rolefit: "09-career-gap-analyzer-agent", framer: "11-star-story-agent",
+    "sp-finance": "14-ceo-agent", "sp-hr": "24-promotion-coach-agent", "sp-amlkyc": "26-aml-agent",
+    "sp-compliance": "25-compliance-agent", "sp-pm": "16-product-director-agent",
+    "sp-eng": "17-engineering-manager-agent", "sp-design": "18-design-director-agent",
+    "sp-data": "08-jd-match-agent", "sp-growth": "29-growth-agent", "sp-sales": "23-salary-negotiation-agent",
+    "sp-startup": "28-startup-founder-agent", "sp-ops": "15-coo-agent",
+    buddy: "01-career-architect-agent", warm: "10-interview-coach-agent", cheer: "28-startup-founder-agent",
+    mirror: "05-evidence-agent", veteran: "13-executive-recruiter-agent",
+  };
+
   function renderAgentCard(grid, a, opts) {
     const selected = state.agents.includes(a.id);
     const forced = !!(opts && opts.forced);
     const card = el("button", "wz-opt-card wz-agent" + (selected || forced ? " is-on" : ""));
-    card.appendChild(el("span", "wz-opt-label", a.name));
-    card.appendChild(el("p", "wz-agent-focus", a.focusZh));
-    if (forced) card.appendChild(el("span", "wz-tag", "已依語氣自動加入"));
-    else if (opts && opts.recommended) card.appendChild(el("span", "wz-tag wz-tag-rec", "✨ 推薦"));
+    const imgFile = AGENT_IMG[a.id];
+    if (imgFile) {
+      const figure = el("div", "wz-agent-figure");
+      const img = document.createElement("img");
+      img.src = "assets/images/agents/mentors-clean/" + imgFile + ".png";
+      img.alt = "";
+      img.loading = "lazy";
+      figure.appendChild(img);
+      card.appendChild(figure);
+    } else if (window.RM_SILHOUETTES && a.pose) {
+      const figure = el("div", "wz-agent-figure wz-agent-figure-svg", window.RM_SILHOUETTES.svg(a.pose));
+      card.appendChild(figure);
+    }
+    const text = el("div", "wz-agent-text");
+    text.appendChild(el("span", "wz-opt-label", a.name));
+    text.appendChild(el("p", "wz-agent-focus", a.focusZh));
+    if (a.persona) text.appendChild(el("p", "wz-agent-persona", a.persona));
+    if (forced) text.appendChild(el("span", "wz-tag", "已依語氣自動加入"));
+    else if (opts && opts.recommended) text.appendChild(el("span", "wz-tag wz-tag-rec", "✨ 推薦"));
+    card.appendChild(text);
     card.onclick = () => {
       if (forced) return;
       const i = state.agents.indexOf(a.id);
@@ -455,8 +490,11 @@
   }
 
   function renderAgents(body) {
-    body.appendChild(el("h2", "wz-q", "想找哪些角色，幫你一起看？（可複選）"));
-    body.appendChild(el("p", "wz-sub", "這就是你的多代理顧問團：上面是審查／模擬角色，下面是各領域專家。每位都有自己的專長，會一起寫進你的提示詞。"));
+    const isEncourage = state.goal === "encourage";
+    body.appendChild(el("h2", "wz-q", isEncourage ? "想找誰來挺你？（可複選）" : "想找哪些角色，幫你一起看？（可複選）"));
+    body.appendChild(el("p", "wz-sub", isEncourage
+      ? "這是一群會挺你的人，每個用自己的方式給你力量。不知道選誰？按「✨ 加入推薦角色」就好。"
+      : "這就是你的多代理顧問團：上面是審查／模擬角色，下面是各領域專家。每位都有自己的專長，會一起寫進你的提示詞。"));
     addHint(body, "agents");
 
     // 快捷操作
@@ -474,19 +512,21 @@
     body.appendChild(tools);
 
     // 群組 1：審查 / 模擬角色
-    body.appendChild(el("h3", "wz-group", state.goal === "interview" ? "面試考官" : "履歷審查角色"));
-    const g1 = el("div", "wz-grid");
+    body.appendChild(el("h3", "wz-group", isEncourage ? "挺你的人" : (state.goal === "interview" ? "面試考官" : "履歷審查角色")));
+    const g1 = el("div", "wz-grid wz-grid-agents");
     (C.agents[state.goal] || []).forEach((a) => {
       const forced = state.goal === "cv" && state.answers.tone === "harsh" && a.id === "devil";
       renderAgentCard(g1, a, { forced });
     });
     body.appendChild(g1);
 
-    // 群組 2：領域專家
-    body.appendChild(el("h3", "wz-group", "領域專家顧問　·　依你的產業／職能挑選"));
-    const g2 = el("div", "wz-grid");
-    (C.agents.specialists || []).forEach((a) => renderAgentCard(g2, a, { recommended: isRecommended(a) }));
-    body.appendChild(g2);
+    // 群組 2：領域專家（打氣路線不需要）
+    if (!isEncourage) {
+      body.appendChild(el("h3", "wz-group", "領域專家顧問　·　依你的產業／職能挑選"));
+      const g2 = el("div", "wz-grid wz-grid-agents");
+      (C.agents.specialists || []).forEach((a) => renderAgentCard(g2, a, { recommended: isRecommended(a) }));
+      body.appendChild(g2);
+    }
   }
 
   function parsePromptSections(prompt) {
@@ -527,7 +567,7 @@
   function renderSkillPack(body) {
     const names = selectedSkillNames();
     if (!names.length) return;
-    body.appendChild(el("h3", "wz-group", "Skill pack · 點一下看真實設定"));
+    body.appendChild(el("h3", "wz-group", "顧問規則 · 點一下看真實內容"));
     const wrap = el("div", "wz-skill-pack");
     names.slice(0, 10).forEach((name) => {
       const btn = el("button", "wz-skill-pill", name);
@@ -540,10 +580,11 @@
 
   /* ---------- Step: 結果（完成頁） ---------- */
   function renderResult(body) {
-    body.appendChild(el("div", "wz-done-badge", "✅ 已完成分析"));
-    body.appendChild(el("h2", "wz-q wz-done-title", "你的 Prompt 已準備完成"));
-    body.appendChild(el("p", "wz-sub", UI.resultHint));
+    body.appendChild(el("div", "wz-done-badge", "✅ 已產生"));
+    body.appendChild(el("h2", "wz-q wz-done-title", "你的提示詞，已經做好了。"));
+    body.appendChild(el("p", "wz-sub", "直接複製貼給 ChatGPT、Claude 或任何 AI。也可以在下面直接修改，補上你的 LinkedIn、GitHub 連結或任何細節，再複製。"));
 
+    // 語言切換
     const langWrap = el("div", "wz-lang");
     langWrap.appendChild(el("span", "wz-lang-label", UI.langLabel + "："));
     [["zh", UI.langZh], ["en", UI.langEn]].forEach(([id, label]) => {
@@ -553,13 +594,12 @@
     });
     body.appendChild(langWrap);
 
+    // 可編輯的完整提示詞（放最上面，第一眼就看到）
     const prompt = buildPrompt();
-    renderPromptSections(body, prompt);
-    renderSkillPack(body);
-
-    const pre = el("textarea", "wz-output");
-    pre.readOnly = true;
+    const pre = el("textarea", "wz-output wz-output-edit");
     pre.value = prompt;
+    pre.spellcheck = false;
+    pre.setAttribute("aria-label", "提示詞內容，可直接編輯");
     body.appendChild(pre);
 
     const actions = el("div", "wz-actions");
@@ -572,11 +612,8 @@
     };
     const reBtn = el("button", "button secondary", UI.reinterview);
     reBtn.onclick = openRestartModal;
-    const sampleBtn = el("button", "button secondary", UI.viewSample);
-    sampleBtn.onclick = openSampleModal;
     actions.appendChild(copyBtn);
     actions.appendChild(reBtn);
-    actions.appendChild(sampleBtn);
     body.appendChild(actions);
 
     const back = el("button", "wz-link-back", UI.backEdit);
@@ -688,6 +725,65 @@
       .join("\n");
   }
 
+  /* ---------- 打氣路線 ---------- */
+  function buildEncourage() {
+    const g = C.guardrail[state.promptLang];
+    const mood = multiText(findQ("encourage", "mood"));
+    const support = singleText(findQ("encourage", "support"));
+    if (isZh()) {
+      return [
+        `# 角色`,
+        `你是一群真心挺使用者的人，請各自用自己的方式回應、給他力量：`,
+        agentLines(),
+        g,
+        ``,
+        `# 我的背景`,
+        mood ? `我最近最累的是：${mood}` : "",
+        support ? `我想要的陪伴方式：${support}` : "",
+        ``,
+        `# 任務`,
+        `先接住情緒，再給力量。請依「我想要的陪伴方式」調整語氣。不要說教、不要急著叫我振作、不要否定我的感受。可以具體提醒我做過的事、我的價值，以及這一切會過去。最後給我一兩個今天就能做、很小的下一步。`,
+        ``,
+        `# 我會提供的資料`,
+        `我最近的狀況：（我會貼在這裡）`,
+        ``,
+        `# 輸出格式`,
+        [
+          `1. 先同理：用兩三句話讓我知道你懂我現在的感受。`,
+          `2. 看見我：具體點出我（從我提供的內容裡）做過、但自己低估的努力與價值。`,
+          `3. 打氣：用溫暖、相信我的語氣，提醒我為什麼撐得過去。`,
+          `4. 一小步：給 1–2 個今天就能做、低負擔的小行動。`,
+          `語氣全程溫暖、真誠、不油膩；不要列我的缺點，不要批評。`,
+        ].join("\n"),
+      ].join("\n");
+    }
+    return [
+      `# Role`,
+      `You are a group of people who genuinely have the user's back; each responds in their own warm way:`,
+      agentLines(),
+      g,
+      ``,
+      `# My background`,
+      mood ? `What's been draining me lately: ${mood}` : "",
+      support ? `The kind of support I want: ${support}` : "",
+      ``,
+      `# Task`,
+      `Hold space for my feelings first, then lift me up. Match the tone to the support I asked for. Do not lecture, do not rush me to "cheer up", do not dismiss my feelings. Remind me of what I've actually done, my worth, and that this will pass. End with one or two tiny, doable next steps.`,
+      ``,
+      `# What I will provide`,
+      `What I'm going through lately: (I will paste it here)`,
+      ``,
+      `# Output format`,
+      [
+        `1. Empathize: a few sentences showing you understand how I feel right now.`,
+        `2. See me: point to specific efforts and worth (from what I shared) that I've underrated.`,
+        `3. Encourage: a warm, believing tone; remind me why I can get through this.`,
+        `4. One small step: 1–2 tiny, low-effort actions I can take today.`,
+        `Keep the whole tone warm and sincere, never cheesy; do not list my flaws or criticize.`,
+      ].join("\n"),
+    ].join("\n");
+  }
+
   /* ---------- 組裝 Prompt ---------- */
   function buildPrompt() {
     if (!state.goal) return "";
@@ -698,6 +794,7 @@
     else if (state.goal === "assessment") prompt = buildAssessment();
     else if (state.goal === "interview") prompt = buildInterview();
     else if (state.goal === "website") prompt = buildWebsite();
+    else if (state.goal === "encourage") prompt = buildEncourage();
     else if (state.goal === "jobs") {
       prompt = isZh()
         ? `# 角色\n你是一位職缺選擇顧問。\n\n# 任務\n這個入口目前仍在規劃中。請先不要產生正式建議，改為向使用者說明這個功能會在未來支援職缺比對、篩選與排序。\n\n# 我會提供的資料\n職缺與偏好資料：（未啟用）\n\n# 輸出格式\n功能預告，不輸出正式職缺建議。`
@@ -1174,12 +1271,9 @@
         const txt = card.querySelector(".wz-opt-text");
         txt.appendChild(el("h3", "wz-goal-title", g.label));
         txt.appendChild(el("p", "wz-goal-desc", g.desc));
-        const badge = el("span", "wz-goal-badge", disabled ? "To be continued" : "Open route");
-        card.querySelector(".wz-goal-top").appendChild(badge);
-        const meta = el("div", "wz-goal-meta");
-        meta.appendChild(el("span", null, disabled ? "disabled teaser" : "click to start"));
-        meta.appendChild(el("span", null, g.id === "linkedin" ? "includes real skill preview" : "multi-agent workflow"));
-        card.appendChild(meta);
+        if (disabled) {
+          card.querySelector(".wz-goal-top").appendChild(el("span", "wz-goal-badge", "即將推出"));
+        }
         card.onclick = () => { if (!disabled) openWizard(g.id); };
         goalWrap.appendChild(card);
       });
@@ -1188,22 +1282,21 @@
     const skillWrap = document.getElementById("rm-skill-gallery");
     if (skillWrap) {
       skillWrap.innerHTML = "";
-      const names = [
-        "Resume Discovery Skill",
-        "LinkedIn Headline Skill",
-        "Referral Request Skill",
-        "Assessment Design Skill",
-        "Job Search Strategy Skill",
-        "No-Fabrication Guardrail Skill",
+      const skills = [
+        ["Resume Discovery Skill", "履歷探勘", "用反問挖出你沒寫出來的成就、數字與證據。"],
+        ["LinkedIn Headline Skill", "LinkedIn 標題", "把你的定位濃縮成一句搜尋得到、又不浮誇的標題。"],
+        ["Referral Request Skill", "推薦請求", "幫你開口請人推薦，並給對方好寫的素材。"],
+        ["Assessment Design Skill", "適性測驗設計", "設計跟目標職位真的相關的測驗，不是人格占卜。"],
+        ["Job Search Strategy Skill", "求職策略", "把找工作拆成可執行的步驟，不再亂槍打鳥。"],
+        ["No-Fabrication Guardrail Skill", "不編造守則", "缺證據就標記待補，絕不替你發明數字。"],
       ];
-      names.forEach((name) => {
-        const skill = SKILLS.getSkill(name);
+      skills.forEach((item) => {
+        const key = item[0];
         const card = el("article", "wz-skill-card");
-        card.appendChild(el("h3", null, skill ? skill.title : name));
-        const desc = skill && skill.text ? skill.text.split("\n").slice(1, 5).join("\n") : "No skill text found.";
-        card.appendChild(el("p", null, desc));
-        const btn = el("button", "wz-skill-open", "查看真實 skill");
-        btn.onclick = () => openSkillPreview(name);
+        card.appendChild(el("h3", null, item[1]));
+        card.appendChild(el("p", null, item[2]));
+        const btn = el("button", "wz-skill-open", "看規則");
+        btn.onclick = () => openSkillPreview(key);
         card.appendChild(btn);
         skillWrap.appendChild(card);
       });
